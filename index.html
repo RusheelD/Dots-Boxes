@@ -4,29 +4,42 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dots and Boxes</title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main>
-      <h1>Dots and Boxes</h1>
-      <section aria-label="Board settings">
-        <label for="board-size">Board size</label>
-        <select id="board-size" name="board-size">
-          <option value="6">6 x 6</option>
-          <option value="7">7 x 7</option>
-          <option value="8">8 x 8</option>
-          <option value="9">9 x 9</option>
-          <option value="10">10 x 10</option>
-        </select>
-        <p id="board-size-label" aria-live="polite"></p>
+    <main class="app">
+      <header class="app-header">
+        <h1 class="app-title">Dots and Boxes</h1>
+        <p class="app-subtitle">Configure board size and preview counts.</p>
+      </header>
+
+      <section class="controls" aria-label="Board settings">
+        <div class="control-group">
+          <label class="control-label" for="board-size">Board size</label>
+          <select class="select-input" id="board-size" name="board-size">
+            <option value="6">6 x 6</option>
+            <option value="7">7 x 7</option>
+            <option value="8">8 x 8</option>
+            <option value="9">9 x 9</option>
+            <option value="10">10 x 10</option>
+          </select>
+        </div>
+        <p id="board-size-label" class="board-meta" aria-live="polite"></p>
       </section>
-      <section aria-label="Scoreboard">
-        <p>
-          Player 1: <span id="score-player-1">0</span> | Player 2:
-          <span id="score-player-2">0</span>
-        </p>
+
+      <section class="scoreboard" aria-label="Scoreboard">
+        <article class="score-card">
+          <h3>Player 1</h3>
+          <p><span id="score-player-1">0</span> boxes</p>
+        </article>
+        <article class="score-card">
+          <h3>Player 2</h3>
+          <p><span id="score-player-2">0</span> boxes</p>
+        </article>
       </section>
-      <section aria-label="Board summary">
-        <div id="board-summary"></div>
+
+      <section class="board-container" aria-label="Board summary">
+        <div id="board-summary" class="board-grid"></div>
       </section>
     </main>
     <script src="game.js"></script>
