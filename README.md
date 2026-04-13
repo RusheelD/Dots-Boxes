@@ -26,3 +26,7 @@ Then visit `http://localhost:8000`.
 - `styles.css` — base styling placeholder.
 - `main.js` — starter script placeholder.
 - `favicon.svg` — simple favicon for Pages.
+
+## Notes
+
+Asset links in `index.html` use root-relative paths (for example `/styles.css`) to support Pages sites served from the domain root. If you host this as a project page under a subpath (such as `https://user.github.io/repo`), switch the links to relative paths (like `./styles.css`).
