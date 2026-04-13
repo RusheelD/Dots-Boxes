@@ -1,20 +1,11 @@
-# Node
-node_modules/
-dist/
-.env
-
-# Python
-__pycache__/
-*.pyc
-.venv/
-
-# .NET
-bin/
-obj/
-*.user
-.vs/
-
-# General
 .DS_Store
 Thumbs.db
 *.log
+node_modules/
+dist/
+.env
+__pycache__/
+*.pyc
+.venv/
+.vscode/
+.idea/
