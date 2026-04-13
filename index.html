@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dots and Boxes</title>
+  </head>
+  <body>
+    <main>
+      <h1>Dots and Boxes</h1>
+      <section aria-label="Board settings">
+        <label for="board-size">Board size</label>
+        <select id="board-size" name="board-size">
+          <option value="6">6 x 6</option>
+          <option value="7">7 x 7</option>
+          <option value="8">8 x 8</option>
+          <option value="9">9 x 9</option>
+          <option value="10">10 x 10</option>
+        </select>
+        <p id="board-size-label" aria-live="polite"></p>
+      </section>
+      <section aria-label="Scoreboard">
+        <p>
+          Player 1: <span id="score-player-1">0</span> | Player 2:
+          <span id="score-player-2">0</span>
+        </p>
+      </section>
+      <section aria-label="Board summary">
+        <div id="board-summary"></div>
+      </section>
+    </main>
+    <script src="game.js"></script>
+    <script src="ui.js"></script>
+  </body>
+</html>
