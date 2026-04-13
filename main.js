@@ -1,4 +1,4 @@
-import { GameMode } from "./contracts/game.ts";
+import { GameMode } from "./contracts/game.js";
 
 const modeSelect = document.querySelector("#mode-select");
 const playerIndicator = document.querySelector("#player-indicator");
