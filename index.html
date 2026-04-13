@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dots and Boxes</title>
+  </head>
+  <body>
+    <main id="app">
+      <header>
+        <h1>Dots and Boxes</h1>
+      </header>
+
+      <section aria-label="Game mode">
+        <label for="mode-select">Game mode</label>
+        <select id="mode-select" name="mode">
+          <option value="two-player">Two Player (Pass-and-Play)</option>
+          <option value="vs-ai">Vs AI</option>
+        </select>
+      </section>
+
+      <section aria-live="polite" aria-atomic="true">
+        <h2>Current turn</h2>
+        <p id="player-indicator">Player 1's turn</p>
+        <p id="pass-prompt">Pass the device to Player 1.</p>
+      </section>
+
+      <section aria-label="Turn controls">
+        <button id="end-turn" type="button">End turn</button>
+      </section>
+
+      <section aria-label="Game board">
+        <p>Game board coming soon.</p>
+      </section>
+    </main>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
