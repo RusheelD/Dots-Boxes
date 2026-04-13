@@ -1,0 +1,21 @@
+# Node/JS
+node_modules/
+dist/
+coverage/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# .NET
+bin/
+obj/
+*.user
+.vs/
+
+# General
+.DS_Store
+Thumbs.db
+*.log
+.env
