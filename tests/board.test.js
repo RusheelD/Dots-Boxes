@@ -74,15 +74,18 @@ runTest('applyMove claims edge and completes box on fourth edge', () => {
   let result = applyMove(board, top, playerId);
   board = result.boardState;
   assert.strictEqual(board.edges[top].claimedBy, playerId);
-  assert.deepStrictEqual(result.completedBoxIds, []);
+  assert(Array.isArray(result.completedBoxIds));
+  assert.strictEqual(result.completedBoxIds.length, 0);
 
   result = applyMove(board, right, playerId);
   board = result.boardState;
-  assert.deepStrictEqual(result.completedBoxIds, []);
+  assert(Array.isArray(result.completedBoxIds));
+  assert.strictEqual(result.completedBoxIds.length, 0);
 
   result = applyMove(board, bottom, playerId);
   board = result.boardState;
-  assert.deepStrictEqual(result.completedBoxIds, []);
+  assert(Array.isArray(result.completedBoxIds));
+  assert.strictEqual(result.completedBoxIds.length, 0);
 
   result = applyMove(board, left, playerId);
   board = result.boardState;
