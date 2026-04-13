@@ -32,6 +32,22 @@
   --text-xl: 1.5rem;
 }
 
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg: #f8fafc;
+    --color-surface: #ffffff;
+    --color-surface-alt: #f1f5f9;
+    --color-text: #0f172a;
+    --color-muted: #64748b;
+    --color-accent: #2563eb;
+    --color-accent-contrast: #eff6ff;
+    --color-border: #e2e8f0;
+    --color-focus: #f97316;
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.1);
+    --shadow-md: 0 12px 30px rgba(15, 23, 42, 0.15);
+  }
+}
+
 * {
   box-sizing: border-box;
 }
