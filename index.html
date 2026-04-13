@@ -8,66 +8,32 @@
   </head>
   <body>
     <main class="app">
-      <header class="app__header">
+      <header class="header">
         <div>
-          <h1 class="app__title">Dots & Boxes</h1>
-          <p class="app__subtitle">Connect the edges, claim the boxes.</p>
+          <h1>Dots & Boxes</h1>
+          <p>Connect the edges, claim the boxes.</p>
         </div>
-        <div class="toolbar__row">
-          <button class="button">New Game</button>
-          <button class="button button--primary">Undo</button>
+        <div class="toolbar">
+          <div class="control">
+            <span>Board size</span>
+            <select id="size-select" aria-label="Board size">
+              <option value="6">6x6</option>
+              <option value="8">8x8</option>
+              <option value="10">10x10</option>
+            </select>
+          </div>
+          <button id="reset-button" type="button">New Game</button>
         </div>
+        <div class="status">
+          <span class="label">Current turn</span>
+          <strong id="current-player">Player 1</strong>
+        </div>
+        <div id="scoreboard" class="scoreboard" aria-live="polite"></div>
       </header>
-      <section class="game-layout">
-        <div class="board-shell">
-          <div class="board-container">
-            <svg class="board-svg" viewBox="0 0 100 100" role="img" aria-label="Game board">
-              <rect x="10" y="10" width="25" height="25" class="box" fill="var(--color-player-1)"></rect>
-              <rect x="40" y="10" width="25" height="25" class="box" fill="var(--color-player-2)"></rect>
-              <text x="22" y="26" class="box__label">A</text>
-              <text x="52" y="26" class="box__label">B</text>
-              <line x1="10" y1="10" x2="35" y2="10" class="edge edge--active"></line>
-              <line x1="35" y1="10" x2="60" y2="10" class="edge edge--hover"></line>
-              <line x1="10" y1="10" x2="10" y2="35" class="edge"></line>
-              <line x1="35" y1="10" x2="35" y2="35" class="edge"></line>
-              <line x1="10" y1="10" x2="35" y2="10" class="edge-hit" tabindex="0"></line>
-              <circle cx="10" cy="10" r="2.5" class="dot"></circle>
-              <circle cx="35" cy="10" r="2.5" class="dot"></circle>
-              <circle cx="60" cy="10" r="2.5" class="dot"></circle>
-              <circle cx="10" cy="35" r="2.5" class="dot"></circle>
-              <circle cx="35" cy="35" r="2.5" class="dot"></circle>
-              <circle cx="60" cy="35" r="2.5" class="dot"></circle>
-            </svg>
-          </div>
-        </div>
-        <aside class="toolbar">
-          <div class="toolbar__section">
-            <span class="toolbar__label">Current Turn</span>
-            <div class="player-chip player-chip--p1">
-              <span class="player-chip__swatch"></span>
-              Player 1
-            </div>
-          </div>
-          <div class="toolbar__section stats-card">
-            <div class="stats-row">
-              <span>Player 1</span>
-              <strong>4</strong>
-            </div>
-            <div class="stats-row">
-              <span>Player 2</span>
-              <strong>2</strong>
-            </div>
-          </div>
-          <div class="toolbar__section">
-            <span class="toolbar__label">Board Size</span>
-            <div class="toolbar__row">
-              <button class="button">6x6</button>
-              <button class="button">8x8</button>
-              <button class="button">10x10</button>
-            </div>
-          </div>
-        </aside>
+      <section class="board-wrapper">
+        <div id="board" class="board-container" role="presentation"></div>
       </section>
     </main>
+    <script type="module" src="app.js"></script>
   </body>
 </html>

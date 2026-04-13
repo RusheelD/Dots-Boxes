@@ -83,6 +83,9 @@ function renderBoard() {
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.classList.add("board");
   svg.setAttribute("viewBox", `0 0 ${VIEWBOX_SIZE} ${VIEWBOX_SIZE}`);
+  svg.setAttribute("width", "100%");
+  svg.setAttribute("height", "100%");
+  svg.setAttribute("role", "img");
   svg.setAttribute("aria-label", "Dots and boxes board");
 
   const gridSize = state.size - 1;
@@ -159,6 +162,8 @@ function renderEdges(svg, step) {
         hit.setAttribute("x2", endX);
         hit.setAttribute("y2", endY);
         hit.classList.add("edge-hit");
+        hit.setAttribute("aria-label", "Claim edge");
+        hit.setAttribute("tabindex", "0");
 
         hit.addEventListener("mouseenter", () => {
           if (state.edges.has(key)) return;
