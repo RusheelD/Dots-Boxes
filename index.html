@@ -1,39 +1,39 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dots & Boxes</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>Dots and Boxes</title>
   </head>
   <body>
-    <main class="app">
-      <header class="header">
-        <div>
-          <h1>Dots & Boxes</h1>
-          <p>Connect the edges, claim the boxes.</p>
-        </div>
-        <div class="toolbar">
-          <div class="control">
-            <span>Board size</span>
-            <select id="size-select" aria-label="Board size">
-              <option value="6">6x6</option>
-              <option value="8">8x8</option>
-              <option value="10">10x10</option>
-            </select>
-          </div>
-          <button id="reset-button" type="button">New Game</button>
-        </div>
-        <div class="status">
-          <span class="label">Current turn</span>
-          <strong id="current-player">Player 1</strong>
-        </div>
-        <div id="scoreboard" class="scoreboard" aria-live="polite"></div>
+    <main id="app">
+      <header>
+        <h1>Dots and Boxes</h1>
       </header>
-      <section class="board-wrapper">
-        <div id="board" class="board-container" role="presentation"></div>
+
+      <section aria-label="Game mode">
+        <label for="mode-select">Game mode</label>
+        <select id="mode-select" name="mode">
+          <option value="two-player">Two Player (Pass-and-Play)</option>
+          <option value="vs-ai">Vs AI</option>
+        </select>
+      </section>
+
+      <section aria-live="polite" aria-atomic="true">
+        <h2>Current turn</h2>
+        <p id="player-indicator">Player 1's turn</p>
+        <p id="pass-prompt">Pass the device to Player 1.</p>
+      </section>
+
+      <section aria-label="Turn controls">
+        <button id="end-turn" type="button">End turn</button>
+      </section>
+
+      <section aria-label="Game board">
+        <p>Game board coming soon.</p>
       </section>
     </main>
-    <script type="module" src="app.js"></script>
+
+    <script type="module" src="./main.js"></script>
   </body>
 </html>

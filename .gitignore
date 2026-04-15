@@ -1,3 +1,20 @@
+# Node
 node_modules/
-coverage/
-.vite/
+dist/
+.env
+
+# General
+.DS_Store
+Thumbs.db
+*.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# .NET
+bin/
+obj/
+*.user
+.vs/
