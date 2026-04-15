@@ -1,0 +1,12 @@
+{
+  "name": "dots-boxes",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "vitest run --environment jsdom"
+  },
+  "devDependencies": {
+    "vitest": "^1.6.0"
+  }
+}
