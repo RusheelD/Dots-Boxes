@@ -1,39 +1,23 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dots and Boxes</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1e293b" />
+    <meta name="description" content="Dots and Boxes on GitHub Pages" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Dots &amp; Boxes</title>
   </head>
   <body>
-    <main id="app">
-      <header>
-        <h1>Dots and Boxes</h1>
+    <main class="app">
+      <header class="app__header">
+        <h1>Dots &amp; Boxes</h1>
+        <p class="app__subtitle">Coming soon to GitHub Pages.</p>
       </header>
-
-      <section aria-label="Game mode">
-        <label for="mode-select">Game mode</label>
-        <select id="mode-select" name="mode">
-          <option value="two-player">Two Player (Pass-and-Play)</option>
-          <option value="vs-ai">Vs AI</option>
-        </select>
-      </section>
-
-      <section aria-live="polite" aria-atomic="true">
-        <h2>Current turn</h2>
-        <p id="player-indicator">Player 1's turn</p>
-        <p id="pass-prompt">Pass the device to Player 1.</p>
-      </section>
-
-      <section aria-label="Turn controls">
-        <button id="end-turn" type="button">End turn</button>
-      </section>
-
-      <section aria-label="Game board">
-        <p>Game board coming soon.</p>
-      </section>
+      <section class="app__content" id="app" aria-live="polite"></section>
     </main>
-
-    <script type="module" src="./main.js"></script>
+    <script src="/main.js" defer></script>
   </body>
 </html>
