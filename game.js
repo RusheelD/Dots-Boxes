@@ -42,6 +42,36 @@
  */
 
 /**
+ * @typedef {Object.<string, number>} ScoreState
+ */
+
+/**
+ * @typedef {Object} GameOutcome
+ * @property {string | null} winnerId
+ * @property {boolean} isTie
+ */
+
+/**
+ * @typedef {Object} GameState
+ * @property {BoardState} board
+ * @property {ScoreState} scores
+ * @property {string} currentPlayerId
+ * @property {boolean} isGameOver
+ * @property {string | null} winnerId
+ * @property {boolean} isTie
+ */
+
+/**
+ * @typedef {Object} MoveResult
+ * @property {BoardState} boardState
+ * @property {string[]} completedBoxIds
+ * @property {ScoreState} scores
+ * @property {string} currentPlayerId
+ * @property {boolean} isGameOver
+ * @property {string | null} winnerId
+ */
+
+/**
  * Create a new board state for a given size.
  * @param {number} size - Dot grid size N (6–10).
  * @returns {BoardState}

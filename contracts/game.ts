@@ -61,10 +61,19 @@ export interface BoardState {
 export interface MoveResult {
   boardState: BoardState;
   completedBoxIds: string[];
+  scores: ScoreState;
+  currentPlayerId: PlayerId;
+  isGameOver: boolean;
+  winnerId: PlayerId | null;
 }
 
 export interface ScoreState {
   [playerId: PlayerId]: number;
+}
+
+export interface GameOutcome {
+  winnerId: PlayerId | null;
+  isTie: boolean;
 }
 
 export interface GameState {
@@ -75,7 +84,8 @@ export interface GameState {
   mode: GameMode;
   aiDifficulty?: AIDifficulty | null;
   isGameOver: boolean;
-  winnerId?: PlayerId | null;
+  winnerId: PlayerId | null;
+  isTie: boolean;
 }
 
 export interface RenderEdge {
