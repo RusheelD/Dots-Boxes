@@ -9,6 +9,19 @@ export enum AIDifficulty {
   Hard = "hard",
 }
 
+export enum ThemeName {
+  Classic = "classic",
+  Neon = "neon",
+  Pastel = "pastel",
+  Mono = "mono",
+  Sunset = "sunset",
+}
+
+export interface ThemeOption {
+  name: ThemeName;
+  label: string;
+}
+
 export type PlayerNumber = 1 | 2;
 
 export type PlayerId = string;

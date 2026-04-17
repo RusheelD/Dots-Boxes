@@ -8,3 +8,11 @@ export const AIDifficulty = {
   Medium: "medium",
   Hard: "hard",
 };
+
+export const ThemeName = {
+  Classic: "classic",
+  Neon: "neon",
+  Pastel: "pastel",
+  Mono: "mono",
+  Sunset: "sunset",
+};
