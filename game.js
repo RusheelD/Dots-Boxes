@@ -306,6 +306,10 @@ function getGameOutcome(scores) {
   return { winnerId: isTie ? null : winnerId, isTie };
 }
 
+if (typeof globalThis !== "undefined") {
+  globalThis.DotsBoxes = { createBoard, getAvailableMoves, applyMove };
+}
+
 function runBoardSizeChecks() {
   for (let size = 6; size <= 10; size += 1) {
     const board = createBoard(size);

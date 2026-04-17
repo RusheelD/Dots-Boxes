@@ -1,7 +1,11 @@
 import { describe, it, expect } from "vitest";
-import fs from "fs";
-import path from "path";
-import vm from "vm";
+import fs from "node:fs";
+import path from "node:path";
+import vm from "node:vm";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const loadGameModule = () => {
   const code = fs.readFileSync(path.join(__dirname, "..", "game.js"), "utf8");
@@ -19,7 +23,7 @@ const { createBoard, getAvailableMoves, applyMove } = loadGameModule();
 
 const expectedEdgeCount = (size) => 2 * size * (size - 1);
 
-describe("board logic", () => {
+describe("game board utilities", () => {
   it("createBoard sets correct dot/edge/box counts for sizes 6, 7, 10", () => {
     [6, 7, 10].forEach((size) => {
       const board = createBoard(size);
