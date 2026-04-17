@@ -13,9 +13,17 @@ export type PlayerNumber = 1 | 2;
 
 export type PlayerId = string;
 
+export type PlayerType = "human" | "ai";
+
 export interface TurnState {
   mode: GameMode;
   currentPlayer: PlayerId;
+}
+
+export interface GameSettings {
+  boardSize: number;
+  mode: GameMode;
+  aiDifficulty?: AIDifficulty | null;
 }
 
 export interface PlayerProfile {
@@ -23,7 +31,7 @@ export interface PlayerProfile {
   name: string;
   color: string;
   label?: string;
-  type?: "human" | "ai";
+  type?: PlayerType;
 }
 
 export type EdgeOrientation = "h" | "v";
@@ -74,6 +82,7 @@ export interface GameState {
   currentPlayerId: PlayerId;
   mode: GameMode;
   aiDifficulty?: AIDifficulty | null;
+  settings?: GameSettings;
   isGameOver: boolean;
   winnerId?: PlayerId | null;
 }

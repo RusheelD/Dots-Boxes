@@ -8,3 +8,8 @@ export const AIDifficulty = {
   Medium: "medium",
   Hard: "hard",
 };
+
+export const PlayerType = {
+  Human: "human",
+  AI: "ai",
+};
