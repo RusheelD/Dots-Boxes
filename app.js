@@ -56,6 +56,12 @@ function init() {
     }
   });
 
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !endgameModal.hidden) {
+      closeEndgameModal();
+    }
+  });
+
   resetBoard();
 }
 

@@ -299,9 +299,14 @@ select:focus-visible {
   cursor: pointer;
 }
 
-.edge-hit:focus-visible + .edge,
 .edge-hit:focus-visible {
   outline: none;
+}
+
+.edge-hit:focus-visible + .edge,
+.edge-hit:focus-visible ~ .edge {
+  stroke: var(--edge-hover);
+  stroke-width: 10;
 }
 
 .box-fill {
