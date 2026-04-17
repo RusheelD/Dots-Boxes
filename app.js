@@ -255,6 +255,8 @@ function renderEdges(svg, step) {
           line.style.stroke = state.players[owner].color;
         }
 
+        line.dataset.orientation = orientation;
+
         hit.setAttribute("x1", startX);
         hit.setAttribute("y1", startY);
         hit.setAttribute("x2", endX);
