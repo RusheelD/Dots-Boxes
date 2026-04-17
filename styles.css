@@ -80,7 +80,7 @@ body[data-theme="mono"] {
   --edge-hover: #e2e8f0;
   --board-shadow: rgba(0, 0, 0, 0.4);
   --p1: #f8fafc;
-  --p2: #94a3b8;
+  --p2: #38bdf8;
 }
 
 body[data-theme="sunset"] {
@@ -286,13 +286,13 @@ select:focus-visible {
 }
 
 .edge.hovered,
-.edge-group.is-hovered .edge {
+.edge-group.is-hovered .edge:not(.claimed) {
   stroke: var(--edge-hover);
   opacity: 0.7;
 }
 
 .edge.active,
-.edge-group.is-active .edge {
+.edge-group.is-active .edge:not(.claimed) {
   stroke: var(--primary);
   opacity: 1;
 }
@@ -302,6 +302,7 @@ select:focus-visible {
   stroke-dasharray: 150;
   stroke-dashoffset: 150;
   animation: edge-draw 0.4s ease forwards;
+  opacity: 1;
 }
 
 .edge[data-orientation="v"] {
@@ -311,7 +312,7 @@ select:focus-visible {
 
 .edge-hit {
   stroke: transparent;
-  stroke-width: 24;
+  stroke-width: var(--edge-hit-width, 14);
   cursor: pointer;
   pointer-events: stroke;
 }
@@ -319,12 +320,12 @@ select:focus-visible {
 .edge-hit:focus-visible {
   outline: none;
   stroke: var(--edge-hover);
-  stroke-width: 24;
+  stroke-width: var(--edge-hit-width, 14);
   opacity: 0.9;
 }
 
-.edge-hit:focus-visible + .edge,
-.edge-hit:focus-visible ~ .edge {
+.edge-hit:focus-visible + .edge:not(.claimed),
+.edge-hit:focus-visible ~ .edge:not(.claimed) {
   stroke: var(--edge-hover);
   stroke-width: 10;
 }

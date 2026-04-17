@@ -54,7 +54,10 @@ const appendDot = (svg, { x, y, radius }) => {
   svg.append(dot);
 };
 
-const appendEdge = (svg, { edge, startX, startY, endX, endY, hoveredEdgeId, activeEdgeId }) => {
+const appendEdge = (
+  svg,
+  { edge, startX, startY, endX, endY, hoveredEdgeId, activeEdgeId, hitStrokeWidth }
+) => {
   const group = svg.ownerDocument.createElementNS("http://www.w3.org/2000/svg", "g");
   group.setAttribute("data-edge-id", edge.id);
   group.setAttribute("tabindex", "0");
@@ -71,7 +74,9 @@ const appendEdge = (svg, { edge, startX, startY, endX, endY, hoveredEdgeId, acti
   hit.setAttribute("y1", startY);
   hit.setAttribute("x2", endX);
   hit.setAttribute("y2", endY);
-  hit.setAttribute("stroke-width", "18");
+  if (hitStrokeWidth) {
+    hit.style.setProperty("--edge-hit-width", String(hitStrokeWidth));
+  }
 
   const line = svg.ownerDocument.createElementNS("http://www.w3.org/2000/svg", "line");
   line.classList.add("edge");
@@ -100,6 +105,7 @@ export const renderBoard = (container, options) => {
   const svg = createSvg(documentRef, gridSize);
   const step = (DEFAULT_VIEWBOX - GRID_PADDING * 2) / gridSize;
   const dotRadius = Math.max(1.4, step * 0.08);
+  const hitStrokeWidth = Math.max(8, step * 0.18);
   const playerMap = getPlayerMap(players);
 
   boxes.forEach((box) => {
@@ -114,7 +120,16 @@ export const renderBoard = (container, options) => {
     const startY = GRID_PADDING + edge.row * step;
     const endX = edge.orientation === "h" ? startX + step : startX;
     const endY = edge.orientation === "h" ? startY : startY + step;
-    appendEdge(svg, { edge, startX, startY, endX, endY, hoveredEdgeId, activeEdgeId });
+    appendEdge(svg, {
+      edge,
+      startX,
+      startY,
+      endX,
+      endY,
+      hoveredEdgeId,
+      activeEdgeId,
+      hitStrokeWidth,
+    });
   });
 
   for (let row = 0; row <= gridSize; row += 1) {

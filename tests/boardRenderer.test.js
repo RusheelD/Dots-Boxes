@@ -80,7 +80,7 @@ describeRenderer("SVG board renderer", () => {
     expect(dots.length).toBe((size + 1) * (size + 1));
   });
 
-  it("renders edge hit targets for interaction", () => {
+  it("renders edge hit targets sized between dots", () => {
     const size = 2;
     const edges = buildEdges(size);
     const boxes = buildBoxes(size);
@@ -89,12 +89,32 @@ describeRenderer("SVG board renderer", () => {
 
     const edgeElements = Array.from(container.querySelectorAll("[data-edge-id]"));
     expect(edgeElements.length).toBe(edges.length);
+
+    const step = (100 - 16) / size;
+    const expectedHitWidth = Math.max(8, step * 0.18);
+
     edgeElements.forEach((edge) => {
       const hitTarget = edge.querySelector("[data-hit-target]") ?? edge.querySelector("line") ?? edge;
-      const strokeWidth = Number(hitTarget.getAttribute("stroke-width"));
-      const hitAttribute = hitTarget.getAttribute("data-hit-target") === "true";
-      expect(strokeWidth >= 18 || hitAttribute).toBe(true);
+      expect(hitTarget.getAttribute("data-hit-target")).toBe("true");
+      const hitWidth = Number(hitTarget.style.getPropertyValue("--edge-hit-width"));
+      expect(hitWidth).toBeCloseTo(expectedHitWidth, 2);
     });
+  });
+
+  it("applies player color to claimed edges", () => {
+    const size = 2;
+    const edges = buildEdges(size);
+    const boxes = buildBoxes(size);
+    const playerColor = "#ff8800";
+    edges[0].claimed = true;
+    edges[0].color = playerColor;
+
+    renderBoard(container, { size, edges, boxes, players: [] });
+
+    const claimedGroup = container.querySelector(`[data-edge-id="${edges[0].id}"]`);
+    const claimedLine = claimedGroup?.querySelector(".edge");
+    expect(claimedLine?.getAttribute("stroke")).toBe(playerColor);
+    expect(claimedLine?.classList.contains("claimed")).toBe(true);
   });
 
   it("applies hover and active styles to edges", () => {
