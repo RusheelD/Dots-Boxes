@@ -265,6 +265,8 @@ select:focus-visible {
   display: flex;
   align-items: center;
   justify-content: center;
+  max-width: 100%;
+  max-height: min(70vh, 700px);
 }
 
 .board {
@@ -404,6 +406,18 @@ select:focus-visible {
 @media (max-width: 600px) {
   .app {
     padding: 2rem 1rem 3rem;
+  }
+
+  .app__content {
+    padding: 0.75rem;
+  }
+
+  .board-wrapper {
+    max-height: 60vh;
+  }
+
+  .scoreboard {
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
   }
 
   .app__controls {

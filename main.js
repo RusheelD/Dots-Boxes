@@ -237,8 +237,18 @@ const resetGame = (size) => {
 
 const getEdgeIdFromEvent = (event) => {
   const target = event?.target instanceof Element ? event.target : null;
-  const edgeGroup = target?.closest("[data-edge-id]");
-  return edgeGroup?.getAttribute("data-edge-id") ?? null;
+  if (!target) return null;
+  const directEdgeId = target.getAttribute?.("data-edge-id");
+  if (directEdgeId) return directEdgeId;
+  const edgeGroup = target.closest?.("[data-edge-id]");
+  if (edgeGroup) {
+    return edgeGroup.getAttribute("data-edge-id");
+  }
+  const path = typeof event?.composedPath === "function" ? event.composedPath() : [];
+  const pathMatch = path.find(
+    (node) => node instanceof Element && node.hasAttribute?.("data-edge-id")
+  );
+  return pathMatch?.getAttribute?.("data-edge-id") ?? null;
 };
 
 const handleEdgeInteraction = (edgeId, interaction, event) => {
@@ -270,9 +280,10 @@ const handleEdgeInteraction = (edgeId, interaction, event) => {
     const isPointerMatch =
       state.activeEdgeId === edgeId &&
       (state.activePointerId === null || state.activePointerId === event?.pointerId);
+    const isDirectTap = state.activeEdgeId === null && state.activePointerId === null;
     state.activeEdgeId = null;
     state.activePointerId = null;
-    if (!isPointerMatch) {
+    if (!isPointerMatch && !isDirectTap) {
       render();
       return;
     }
@@ -312,7 +323,7 @@ const attachBoardListeners = () => {
     handleEdgeInteraction(edgeId, "down", event);
   });
   ui.board.addEventListener("pointerup", (event) => {
-    const edgeId = getEdgeIdFromEvent(event);
+    const edgeId = getEdgeIdFromEvent(event) ?? state.activeEdgeId;
     if (!edgeId) return;
     handleEdgeInteraction(edgeId, "up", event);
   });
