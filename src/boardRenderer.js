@@ -64,6 +64,15 @@ const appendEdge = (svg, { edge, startX, startY, endX, endY, hoveredEdgeId, acti
   if (edge.id === hoveredEdgeId) group.classList.add("is-hovered");
   if (edge.id === activeEdgeId) group.classList.add("is-active");
 
+  const hit = svg.ownerDocument.createElementNS("http://www.w3.org/2000/svg", "line");
+  hit.classList.add("edge-hit");
+  hit.setAttribute("data-hit-target", "true");
+  hit.setAttribute("x1", startX);
+  hit.setAttribute("y1", startY);
+  hit.setAttribute("x2", endX);
+  hit.setAttribute("y2", endY);
+  hit.setAttribute("stroke-width", "18");
+
   const line = svg.ownerDocument.createElementNS("http://www.w3.org/2000/svg", "line");
   line.classList.add("edge");
   line.setAttribute("x1", startX);
@@ -75,16 +84,7 @@ const appendEdge = (svg, { edge, startX, startY, endX, endY, hoveredEdgeId, acti
     if (edge.color) line.setAttribute("stroke", edge.color);
   }
 
-  const hit = svg.ownerDocument.createElementNS("http://www.w3.org/2000/svg", "line");
-  hit.classList.add("edge-hit");
-  hit.setAttribute("data-hit-target", "true");
-  hit.setAttribute("x1", startX);
-  hit.setAttribute("y1", startY);
-  hit.setAttribute("x2", endX);
-  hit.setAttribute("y2", endY);
-  hit.setAttribute("stroke-width", "14");
-
-  group.append(line, hit);
+  group.append(hit, line);
   svg.append(group);
 };
 
