@@ -54,7 +54,9 @@ const setupDom = () => {
 
 const dispatchPointer = (element, type, pointerId) => {
   const event = new Event(type, { bubbles: true });
-  event.pointerId = pointerId;
+  if (pointerId !== undefined) {
+    event.pointerId = pointerId;
+  }
   element.dispatchEvent(event);
 };
 
@@ -76,23 +78,36 @@ describe("main UI interactions", () => {
   });
 
   it("does not claim edge if pointerup occurs on a different edge", () => {
-    const edges = document.querySelectorAll("[data-edge-id]");
+    const edges = Array.from(document.querySelectorAll("[data-edge-id]"));
     expect(edges.length).toBeGreaterThan(1);
 
+    const firstEdgeId = edges[0].getAttribute("data-edge-id");
+    const secondEdgeId = edges[1].getAttribute("data-edge-id");
+
     dispatchPointer(edges[0], "pointerdown", 1);
-    dispatchPointer(edges[1], "pointerup", 1);
+    const nextEdges = Array.from(document.querySelectorAll("[data-edge-id]"));
+    const secondEdge = nextEdges.find((edge) => edge.getAttribute("data-edge-id") === secondEdgeId);
+    expect(secondEdge).toBeTruthy();
+    dispatchPointer(secondEdge, "pointerup", 1);
 
     expect(window.applyMove).not.toHaveBeenCalled();
+    expect(window.applyMove).not.toHaveBeenCalledWith(expect.anything(), firstEdgeId);
   });
 
   it("claims edge when pointerup occurs on the active edge", () => {
-    const edges = document.querySelectorAll("[data-edge-id]");
+    const edges = Array.from(document.querySelectorAll("[data-edge-id]"));
     expect(edges.length).toBeGreaterThan(0);
 
+    const edgeId = edges[0].getAttribute("data-edge-id");
     dispatchPointer(edges[0], "pointerdown", 2);
-    dispatchPointer(edges[0], "pointerup", 2);
+
+    const updatedEdge = Array.from(document.querySelectorAll("[data-edge-id]")).find(
+      (edge) => edge.getAttribute("data-edge-id") === edgeId
+    );
+    expect(updatedEdge).toBeTruthy();
+    dispatchPointer(updatedEdge, "pointerup", 2);
 
     expect(window.applyMove).toHaveBeenCalledTimes(1);
-    expect(window.applyMove.mock.calls[0][1]).toBe(edges[0].getAttribute("data-edge-id"));
+    expect(window.applyMove.mock.calls[0][1]).toBe(edgeId);
   });
 });
