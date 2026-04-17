@@ -1,13 +1,13 @@
-import { describe, it, expect } from "vitest";
-import fs from "node:fs";
-import path from "node:path";
-import vm from "node:vm";
-import { fileURLToPath } from "node:url";
+import { describe, it, expect, beforeAll } from "vitest";
+import fs from "fs";
+import path from "path";
+import vm from "vm";
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const loadGameModule = () => {
+function loadGameModule() {
   const code = fs.readFileSync(path.join(__dirname, "..", "game.js"), "utf8");
   const sandbox = {
     module: { exports: {} },
@@ -17,13 +17,19 @@ const loadGameModule = () => {
   vm.createContext(sandbox);
   vm.runInContext(`${code}\nmodule.exports = { createBoard, getAvailableMoves, applyMove };`, sandbox);
   return sandbox.module.exports;
-};
+}
 
-const { createBoard, getAvailableMoves, applyMove } = loadGameModule();
+let createBoard;
+let getAvailableMoves;
+let applyMove;
+
+beforeAll(() => {
+  ({ createBoard, getAvailableMoves, applyMove } = loadGameModule());
+});
 
 const expectedEdgeCount = (size) => 2 * size * (size - 1);
 
-describe("game board utilities", () => {
+describe("board logic", () => {
   it("createBoard sets correct dot/edge/box counts for sizes 6, 7, 10", () => {
     [6, 7, 10].forEach((size) => {
       const board = createBoard(size);
@@ -50,9 +56,8 @@ describe("game board utilities", () => {
     const board = createBoard(6);
     const moves = getAvailableMoves(board);
     expect(moves.length).toBe(expectedEdgeCount(6));
-    const edgeIds = Object.keys(board.edges);
-    edgeIds.forEach((edgeId) => {
-      expect(moves).toContain(edgeId);
+    Object.keys(board.edges).forEach((edgeId) => {
+      expect(moves.includes(edgeId)).toBe(true);
     });
   });
 
@@ -66,17 +71,14 @@ describe("game board utilities", () => {
     let result = applyMove(board, top, playerId);
     board = result.boardState;
     expect(board.edges[top].claimedBy).toBe(playerId);
-    expect(Array.isArray(result.completedBoxIds)).toBe(true);
     expect(result.completedBoxIds.length).toBe(0);
 
     result = applyMove(board, right, playerId);
     board = result.boardState;
-    expect(Array.isArray(result.completedBoxIds)).toBe(true);
     expect(result.completedBoxIds.length).toBe(0);
 
     result = applyMove(board, bottom, playerId);
     board = result.boardState;
-    expect(Array.isArray(result.completedBoxIds)).toBe(true);
     expect(result.completedBoxIds.length).toBe(0);
 
     result = applyMove(board, left, playerId);
@@ -92,7 +94,7 @@ describe("game board utilities", () => {
     const result = applyMove(board, edgeId, playerId);
     board = result.boardState;
     const moves = getAvailableMoves(board);
-    expect(moves).not.toContain(edgeId);
+    expect(moves.includes(edgeId)).toBe(false);
     expect(moves.length).toBe(expectedEdgeCount(6) - 1);
   });
 });

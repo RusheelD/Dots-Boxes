@@ -9,7 +9,10 @@ export const AIDifficulty = {
   Hard: "hard",
 };
 
-export const PlayerType = {
-  Human: "human",
-  AI: "ai",
+export const ThemeName = {
+  Classic: "classic",
+  Neon: "neon",
+  Pastel: "pastel",
+  Mono: "mono",
+  Sunset: "sunset",
 };
