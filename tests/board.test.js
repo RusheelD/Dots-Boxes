@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll } from "vitest";
+import { describe, it, expect } from "vitest";
 import fs from "fs";
 import path from "path";
 import vm from "vm";
@@ -19,17 +19,11 @@ function loadGameModule() {
   return sandbox.module.exports;
 }
 
-let createBoard;
-let getAvailableMoves;
-let applyMove;
-
-beforeAll(() => {
-  ({ createBoard, getAvailableMoves, applyMove } = loadGameModule());
-});
+const { createBoard, getAvailableMoves, applyMove } = loadGameModule();
 
 const expectedEdgeCount = (size) => 2 * size * (size - 1);
 
-describe("board logic", () => {
+describe("Board logic", () => {
   it("createBoard sets correct dot/edge/box counts for sizes 6, 7, 10", () => {
     [6, 7, 10].forEach((size) => {
       const board = createBoard(size);
@@ -48,7 +42,7 @@ describe("board logic", () => {
       const edge = board.edges[edgeId];
       expect(edge).toBeTruthy();
       expect([1, 2]).toContain(edge.adjacentBoxIds.length);
-      expect(edge.claimedBy).toBe(null);
+      expect(edge.claimedBy).toBeNull();
     });
   });
 
@@ -56,8 +50,9 @@ describe("board logic", () => {
     const board = createBoard(6);
     const moves = getAvailableMoves(board);
     expect(moves.length).toBe(expectedEdgeCount(6));
-    Object.keys(board.edges).forEach((edgeId) => {
-      expect(moves.includes(edgeId)).toBe(true);
+    const edgeIds = Object.keys(board.edges);
+    edgeIds.forEach((edgeId) => {
+      expect(moves).toContain(edgeId);
     });
   });
 
@@ -94,7 +89,7 @@ describe("board logic", () => {
     const result = applyMove(board, edgeId, playerId);
     board = result.boardState;
     const moves = getAvailableMoves(board);
-    expect(moves.includes(edgeId)).toBe(false);
+    expect(moves).not.toContain(edgeId);
     expect(moves.length).toBe(expectedEdgeCount(6) - 1);
   });
 });
