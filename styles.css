@@ -298,7 +298,6 @@ select:focus-visible {
 }
 
 .edge.claimed {
-  stroke-width: 8;
   stroke-dasharray: 150;
   stroke-dashoffset: 150;
   animation: edge-draw 0.4s ease forwards;
@@ -327,7 +326,6 @@ select:focus-visible {
 .edge-hit:focus-visible + .edge:not(.claimed),
 .edge-hit:focus-visible ~ .edge:not(.claimed) {
   stroke: var(--edge-hover);
-  stroke-width: 10;
 }
 
 .box-fill {
