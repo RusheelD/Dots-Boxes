@@ -106,6 +106,10 @@ body {
   font-weight: 600;
 }
 
+.control-group label {
+  font-size: 0.95rem;
+}
+
 select,
 button {
   font: inherit;
@@ -152,6 +156,7 @@ button:active {
 .score-card[aria-current="true"] {
   border-color: var(--color-accent);
   box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.35);
+  background: rgba(56, 189, 248, 0.12);
 }
 
 .score-name {
@@ -191,6 +196,11 @@ button:active {
   justify-content: center;
 }
 
+#game-status {
+  min-height: 1.25rem;
+  color: var(--color-muted);
+}
+
 [data-ui="board"] svg {
   width: 100%;
   height: 100%;
@@ -211,7 +221,8 @@ button:active {
   stroke-width: 5;
 }
 
-.edge-group.is-hovered .edge {
+.edge-group.is-hovered .edge,
+.edge-group:focus-visible .edge {
   stroke: var(--color-accent);
 }
 
@@ -226,7 +237,8 @@ button:active {
   cursor: pointer;
 }
 
-.edge-hit:focus-visible {
+.edge-hit:focus-visible,
+.edge-group:focus-visible .edge-hit {
   stroke: rgba(56, 189, 248, 0.6);
   stroke-width: 16;
   outline: none;
