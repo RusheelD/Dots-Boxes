@@ -110,4 +110,15 @@ describe("main UI interactions", () => {
     expect(window.applyMove).toHaveBeenCalledTimes(1);
     expect(window.applyMove.mock.calls[0][1]).toBe(edgeId);
   });
+
+  it("claims edge on pointerup without prior pointerdown", () => {
+    const edges = Array.from(document.querySelectorAll("[data-edge-id]"));
+    expect(edges.length).toBeGreaterThan(0);
+
+    const edgeId = edges[0].getAttribute("data-edge-id");
+    dispatchPointer(edges[0], "pointerup", 3);
+
+    expect(window.applyMove).toHaveBeenCalledTimes(1);
+    expect(window.applyMove.mock.calls[0][1]).toBe(edgeId);
+  });
 });
