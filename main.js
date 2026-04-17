@@ -202,6 +202,13 @@ const render = () => {
   updateStatus();
   updateSizeLabel();
   updateEdgeVisibility();
+  if (getAvailableMoves(state.board).length === 0 && !state.isGameOver) {
+    state.isGameOver = true;
+    const outcome = getGameOutcome(state.scores);
+    state.winnerId = outcome.winnerId;
+    state.isTie = outcome.isTie;
+    showEndgameModal();
+  }
   maybeScheduleAiMove();
 };
 
@@ -209,6 +216,9 @@ const resetGame = (size) => {
   const resolvedSize = BOARD_SIZES.includes(size) ? size : 6;
   state.size = resolvedSize;
   state.board = createBoard(resolvedSize);
+  if (!state.board) {
+    return;
+  }
   state.scores = state.players.reduce((acc, player) => {
     acc[player.id] = 0;
     return acc;

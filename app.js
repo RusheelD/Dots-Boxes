@@ -296,10 +296,11 @@ function renderEdges(svg, step) {
           const isSameEdge = hit.dataset.activeEdge === key;
           const hasPointer = hit.dataset.activePointer;
           const isSamePointer = !hasPointer || hasPointer === String(event.pointerId);
+          const allowWithoutPointerDown = !hit.dataset.activeEdge;
           hit.dataset.activeEdge = "";
           hit.dataset.activePointer = "";
           line.classList.remove("active");
-          if (!isSameEdge || !isSamePointer) return;
+          if ((!isSameEdge && !allowWithoutPointerDown) || !isSamePointer) return;
           claimEdge(key, x, y, orientation);
         });
 
