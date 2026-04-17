@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
 const setupDom = () => {
   document.body.innerHTML = `
@@ -26,7 +26,8 @@ const setupDom = () => {
 
 const loadApp = async () => {
   setupDom();
-  await import(`../app.js?test=${Math.random()}`);
+  vi.resetModules();
+  await import("../app.js");
 };
 
 const claimAllEdges = () => {
