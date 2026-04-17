@@ -75,7 +75,7 @@ const appendEdge = (
   hit.setAttribute("x2", endX);
   hit.setAttribute("y2", endY);
   if (hitStrokeWidth) {
-    hit.style.strokeWidth = String(hitStrokeWidth);
+    hit.style.setProperty("--edge-hit-width", String(hitStrokeWidth));
   }
 
   const line = svg.ownerDocument.createElementNS("http://www.w3.org/2000/svg", "line");

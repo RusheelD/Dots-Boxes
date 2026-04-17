@@ -268,7 +268,7 @@ function renderEdges(svg, step) {
         hit.setAttribute("x2", endX);
         hit.setAttribute("y2", endY);
         hit.classList.add("edge-hit");
-        hit.style.strokeWidth = String(Math.max(8, step * 0.18));
+        hit.style.setProperty("--edge-hit-width", String(Math.max(8, step * 0.18)));
         hit.setAttribute("aria-label", "Claim edge");
         hit.setAttribute("tabindex", "0");
 
