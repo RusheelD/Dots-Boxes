@@ -311,6 +311,7 @@ select:focus-visible {
   stroke: transparent;
   stroke-width: 24;
   cursor: pointer;
+  pointer-events: stroke;
 }
 
 .edge-hit:focus-visible {
