@@ -301,6 +301,9 @@ select:focus-visible {
 
 .edge-hit:focus-visible {
   outline: none;
+  stroke: var(--edge-hover);
+  stroke-width: 24;
+  opacity: 0.9;
 }
 
 .edge-hit:focus-visible + .edge,
