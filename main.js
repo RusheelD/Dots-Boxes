@@ -17,6 +17,7 @@ const state = {
   currentPlayerId: "player-1",
   hoveredEdgeId: null,
   activeEdgeId: null,
+  activePointerId: null,
   isGameOver: false,
   winnerId: null,
   isTie: false,
@@ -141,7 +142,7 @@ const resetGame = (size) => {
   render();
 };
 
-const handleEdgeInteraction = (edgeId, interaction) => {
+const handleEdgeInteraction = (edgeId, interaction, event) => {
   if (!state.board || state.isGameOver) return;
   if (!edgeId) return;
   const edge = state.board.edges[edgeId];
@@ -159,10 +160,22 @@ const handleEdgeInteraction = (edgeId, interaction) => {
 
   if (interaction === "down") {
     state.activeEdgeId = edgeId;
+    if (event?.pointerId !== undefined) {
+      state.activePointerId = event.pointerId;
+      event.target?.setPointerCapture?.(event.pointerId);
+    }
   }
 
   if (interaction === "up") {
+    const isPointerMatch =
+      state.activeEdgeId === edgeId &&
+      (state.activePointerId === null || state.activePointerId === event?.pointerId);
     state.activeEdgeId = null;
+    state.activePointerId = null;
+    if (!isPointerMatch) {
+      render();
+      return;
+    }
     const result = applyMove(state.board, edgeId, state.currentPlayerId, {
       scores: state.scores,
       currentPlayerId: state.currentPlayerId,
@@ -172,7 +185,7 @@ const handleEdgeInteraction = (edgeId, interaction) => {
     state.currentPlayerId = result.currentPlayerId;
     state.isGameOver = result.isGameOver;
     state.winnerId = result.winnerId;
-    state.isTie = state.isGameOver ? getGameOutcome(state.scores).isTie : false;
+    state.isTie = state.isGameOver ? getGameOutcome(result.scores).isTie : false;
   }
 
   render();
@@ -199,29 +212,36 @@ const attachBoardListeners = () => {
   ui.board.addEventListener("pointerover", (event) => {
     const target = event.target.closest("[data-edge-id]");
     if (!target) return;
-    handleEdgeInteraction(target.dataset.edgeId, "hover");
+    handleEdgeInteraction(target.dataset.edgeId, "hover", event);
   });
   ui.board.addEventListener("pointerout", (event) => {
     const target = event.target.closest("[data-edge-id]");
     if (!target) return;
-    handleEdgeInteraction(target.dataset.edgeId, "leave");
+    handleEdgeInteraction(target.dataset.edgeId, "leave", event);
   });
   ui.board.addEventListener("pointerdown", (event) => {
     const target = event.target.closest("[data-edge-id]");
     if (!target) return;
-    handleEdgeInteraction(target.dataset.edgeId, "down");
+    handleEdgeInteraction(target.dataset.edgeId, "down", event);
   });
   ui.board.addEventListener("pointerup", (event) => {
     const target = event.target.closest("[data-edge-id]");
     if (!target) return;
-    handleEdgeInteraction(target.dataset.edgeId, "up");
+    handleEdgeInteraction(target.dataset.edgeId, "up", event);
+  });
+  ui.board.addEventListener("pointercancel", (event) => {
+    state.activeEdgeId = null;
+    state.activePointerId = null;
+    const target = event.target.closest("[data-edge-id]");
+    if (!target) return;
+    handleEdgeInteraction(target.dataset.edgeId, "leave", event);
   });
   ui.board.addEventListener("keydown", (event) => {
     const target = event.target.closest("[data-edge-id]");
     if (!target) return;
     if (event.key !== "Enter" && event.key !== " ") return;
     event.preventDefault();
-    handleEdgeInteraction(target.dataset.edgeId, "up");
+    handleEdgeInteraction(target.dataset.edgeId, "up", event);
   });
   if (ui.resetButton) {
     ui.resetButton.addEventListener("click", () => resetGame(state.size));

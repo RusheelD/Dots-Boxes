@@ -175,15 +175,32 @@ function renderEdges(svg, step) {
           line.classList.remove("active");
         });
 
-        hit.addEventListener("pointerdown", () => {
+        hit.addEventListener("pointerdown", (event) => {
           if (state.edges.has(key)) return;
           line.classList.add("active");
+          hit.dataset.activeEdge = key;
+          if (event.pointerId !== undefined) {
+            hit.dataset.activePointer = String(event.pointerId);
+            hit.setPointerCapture?.(event.pointerId);
+          }
         });
 
-        hit.addEventListener("pointerup", () => {
+        hit.addEventListener("pointerup", (event) => {
           if (state.edges.has(key)) return;
+          const isSameEdge = hit.dataset.activeEdge === key;
+          const hasPointer = hit.dataset.activePointer;
+          const isSamePointer = !hasPointer || hasPointer === String(event.pointerId);
+          hit.dataset.activeEdge = "";
+          hit.dataset.activePointer = "";
           line.classList.remove("active");
+          if (!isSameEdge || !isSamePointer) return;
           claimEdge(key, x, y, orientation);
+        });
+
+        hit.addEventListener("pointercancel", () => {
+          hit.dataset.activeEdge = "";
+          hit.dataset.activePointer = "";
+          line.classList.remove("active");
         });
 
         svg.append(line, hit);
