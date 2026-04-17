@@ -57,6 +57,9 @@ const appendDot = (svg, { x, y, radius }) => {
 const appendEdge = (svg, { edge, startX, startY, endX, endY, hoveredEdgeId, activeEdgeId }) => {
   const group = svg.ownerDocument.createElementNS("http://www.w3.org/2000/svg", "g");
   group.setAttribute("data-edge-id", edge.id);
+  group.setAttribute("tabindex", "0");
+  group.setAttribute("role", "button");
+  group.setAttribute("aria-label", "Claim edge");
   group.classList.add("edge-group");
   if (edge.id === hoveredEdgeId) group.classList.add("is-hovered");
   if (edge.id === activeEdgeId) group.classList.add("is-active");

@@ -11,13 +11,73 @@
     <title>Dots &amp; Boxes</title>
   </head>
   <body>
-    <main class="app">
+    <div id="app">
+      <main class="app" id="game">
       <header class="app__header">
-        <h1>Dots &amp; Boxes</h1>
-        <p class="app__subtitle">Coming soon to GitHub Pages.</p>
+        <div>
+          <h1>Dots &amp; Boxes</h1>
+          <p class="app__subtitle">Claim the most boxes to win.</p>
+        </div>
+        <div class="app__controls">
+          <label class="control">
+            Theme
+            <select id="theme-select" aria-label="Theme"></select>
+          </label>
+          <label class="control">
+            Game mode
+            <select id="mode-select" aria-label="Game mode">
+              <option value="two-player">2 Players</option>
+              <option value="vs-ai">Play vs AI</option>
+            </select>
+          </label>
+          <label class="control">
+            AI difficulty
+            <select id="ai-select" aria-label="AI difficulty">
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </label>
+          <label class="control">
+            Board size
+            <select id="size-select" aria-label="Board size"></select>
+          </label>
+          <button id="reset-button" class="primary-button" type="button">Reset</button>
+        </div>
+        <p id="board-size-label" class="board-size-label"></p>
       </header>
-      <section class="app__content" id="app" aria-live="polite"></section>
+
+      <section class="app__status" aria-live="polite">
+        <div id="scoreboard" class="scoreboard"></div>
+        <div class="current-player">
+          <span id="current-player"></span>
+        </div>
+        <div id="game-status" class="game-status"></div>
+      </section>
+
+      <section class="app__content">
+        <div id="board" class="board-wrapper"></div>
+      </section>
     </main>
-    <script src="/main.js" defer></script>
+    </div>
+
+    <div
+      class="modal"
+      id="endgame-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="endgame-title"
+      aria-describedby="endgame-summary"
+      hidden
+    >
+      <div class="modal__content">
+        <h2 id="endgame-title"></h2>
+        <p id="endgame-summary"></p>
+        <div id="endgame-scores" class="modal__scores"></div>
+        <button id="play-again-button" class="primary-button" type="button">Play again</button>
+      </div>
+    </div>
+
+    <script type="module" src="/main.js"></script>
   </body>
 </html>
