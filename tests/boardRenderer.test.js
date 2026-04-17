@@ -90,11 +90,10 @@ describeRenderer("SVG board renderer", () => {
     const edgeElements = Array.from(container.querySelectorAll("[data-edge-id]"));
     expect(edgeElements.length).toBe(edges.length);
     edgeElements.forEach((edge) => {
-      const hitTarget =
-        edge.querySelector("[data-hit-target]") ?? edge.querySelector("line") ?? edge;
+      const hitTarget = edge.querySelector("[data-hit-target]") ?? edge.querySelector("line") ?? edge;
       const strokeWidth = Number(hitTarget.getAttribute("stroke-width"));
       const hitAttribute = hitTarget.getAttribute("data-hit-target") === "true";
-      expect(strokeWidth >= 10 || hitAttribute).toBe(true);
+      expect(strokeWidth >= 18 || hitAttribute).toBe(true);
     });
   });
 
