@@ -279,10 +279,13 @@ select:focus-visible {
 }
 
 .edge {
-  stroke: var(--edge);
   stroke-width: 6;
   stroke-linecap: round;
   transition: stroke 0.2s ease, opacity 0.2s ease;
+}
+
+.edge:not(.claimed) {
+  stroke: var(--edge);
 }
 
 .edge.hovered,
@@ -298,7 +301,6 @@ select:focus-visible {
 }
 
 .edge.claimed {
-  stroke-width: 8;
   stroke-dasharray: 150;
   stroke-dashoffset: 150;
   animation: edge-draw 0.4s ease forwards;
@@ -327,21 +329,12 @@ select:focus-visible {
 .edge-hit:focus-visible + .edge:not(.claimed),
 .edge-hit:focus-visible ~ .edge:not(.claimed) {
   stroke: var(--edge-hover);
-  stroke-width: 10;
 }
 
 .box-fill {
   opacity: 0;
   transform-origin: center;
   animation: box-fill 0.4s ease forwards;
-}
-
-.box-label {
-  fill: #ffffff;
-  font-size: 18px;
-  font-weight: 600;
-  dominant-baseline: middle;
-  text-anchor: middle;
 }
 
 .modal {

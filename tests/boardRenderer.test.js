@@ -137,7 +137,7 @@ describeRenderer("SVG board renderer", () => {
     expect(active?.classList.contains("is-active")).toBe(true);
   });
 
-  it("fills completed boxes with player color and label", () => {
+  it("fills completed boxes with player color and no label text", () => {
     const size = 2;
     const edges = buildEdges(size);
     const boxes = buildBoxes(size);
@@ -152,6 +152,6 @@ describeRenderer("SVG board renderer", () => {
     expect(box?.getAttribute("fill")).toBe(players[0].color);
 
     const label = container.querySelector('[data-box-label="b-0-0"]');
-    expect(label?.textContent?.trim()).toBe(players[0].name);
+    expect(label).toBeNull();
   });
 });

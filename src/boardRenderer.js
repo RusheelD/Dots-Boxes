@@ -33,15 +33,6 @@ const appendBox = (svg, { x, y, step, box, player }) => {
   rect.setAttribute("height", step);
   svg.append(rect);
 
-  if (player?.name) {
-    const label = svg.ownerDocument.createElementNS("http://www.w3.org/2000/svg", "text");
-    label.classList.add("box-label");
-    label.setAttribute("data-box-label", box.id);
-    label.textContent = player.name;
-    label.setAttribute("x", x + step / 2);
-    label.setAttribute("y", y + step / 2);
-    svg.append(label);
-  }
 };
 
 const appendDot = (svg, { x, y, radius }) => {
