@@ -14,10 +14,36 @@
     <main class="app">
       <header class="app__header">
         <h1>Dots &amp; Boxes</h1>
-        <p class="app__subtitle">Coming soon to GitHub Pages.</p>
+        <p class="app__subtitle">Claim the most boxes to win. Choose your board size to start.</p>
       </header>
-      <section class="app__content" id="app" aria-live="polite"></section>
+      <section class="app__content">
+        <div class="game-layout is-landscape" id="game">
+          <div data-ui="toolbar">
+            <div class="toolbar-row">
+              <div class="control-group">
+                <label for="board-size">Board size</label>
+                <select id="board-size" name="board-size">
+                  <option value="6">6 x 6</option>
+                  <option value="7">7 x 7</option>
+                  <option value="8">8 x 8</option>
+                  <option value="9">9 x 9</option>
+                  <option value="10">10 x 10</option>
+                </select>
+              </div>
+              <button type="button" id="reset-game">Reset game</button>
+            </div>
+            <div class="board-label" id="board-size-label"></div>
+            <div class="scoreboard" id="scoreboard"></div>
+            <div class="current-player" id="current-player"></div>
+            <div class="board-label" id="game-status"></div>
+          </div>
+          <div class="board-frame">
+            <div data-ui="board" id="board"></div>
+          </div>
+        </div>
+      </section>
     </main>
-    <script src="/main.js" defer></script>
+    <script src="/game.js" defer></script>
+    <script src="/main.js" type="module"></script>
   </body>
 </html>

@@ -42,6 +42,36 @@
  */
 
 /**
+ * @typedef {Object.<string, number>} ScoreState
+ */
+
+/**
+ * @typedef {Object} GameOutcome
+ * @property {string | null} winnerId
+ * @property {boolean} isTie
+ */
+
+/**
+ * @typedef {Object} GameState
+ * @property {BoardState} board
+ * @property {ScoreState} scores
+ * @property {string} currentPlayerId
+ * @property {boolean} isGameOver
+ * @property {string | null} winnerId
+ * @property {boolean} isTie
+ */
+
+/**
+ * @typedef {Object} MoveResult
+ * @property {BoardState} boardState
+ * @property {string[]} completedBoxIds
+ * @property {ScoreState} scores
+ * @property {string} currentPlayerId
+ * @property {boolean} isGameOver
+ * @property {string | null} winnerId
+ */
+
+/**
  * Create a new board state for a given size.
  * @param {number} size - Dot grid size N (6–10).
  * @returns {BoardState}
@@ -141,16 +171,44 @@ function getAvailableMoves(boardState) {
 }
 
 /**
- * Apply a move to the board state and return any completed boxes.
+ * Apply a move to the board state, update scoring/turn state, and return completed boxes.
  * @param {BoardState} boardState
  * @param {string} edgeId - Edge id to claim.
  * @param {string} playerId - Player id claiming the edge.
- * @returns {{ boardState: BoardState, completedBoxIds: string[] }}
+ * @param {{ scores?: ScoreState, currentPlayerId?: string, playerOrder?: string[] }} [options]
+ * @returns {MoveResult}
  */
-function applyMove(boardState, edgeId, playerId) {
+function applyMove(boardState, edgeId, playerId, options = {}) {
+  const resolvedOptions =
+    options && typeof options === "object" && !Array.isArray(options) ? options : {};
+  const playerOrder = Array.isArray(resolvedOptions.playerOrder)
+    ? resolvedOptions.playerOrder
+    : null;
+  const scoresInput = resolvedOptions.scores || {};
+  const currentPlayerId = resolvedOptions.currentPlayerId || playerId;
+  const nextScores = { ...scoresInput };
+  const orderFromScores = Object.keys(nextScores);
+  const orderedPlayers =
+    playerOrder && playerOrder.length > 0
+      ? playerOrder
+      : orderFromScores.length > 0
+        ? orderFromScores
+        : [currentPlayerId];
+
   const edge = boardState.edges[edgeId];
   if (!edge || edge.claimedBy) {
-    return { boardState, completedBoxIds: [] };
+    const isGameOver = Object.values(boardState.edges).every(
+      (currentEdge) => currentEdge.claimedBy
+    );
+    const outcome = isGameOver ? getGameOutcome(nextScores) : { winnerId: null, isTie: false };
+    return {
+      boardState,
+      completedBoxIds: [],
+      scores: nextScores,
+      currentPlayerId,
+      isGameOver,
+      winnerId: outcome.winnerId,
+    };
   }
 
   edge.claimedBy = playerId;
@@ -171,7 +229,81 @@ function applyMove(boardState, edgeId, playerId) {
     }
   });
 
-  return { boardState, completedBoxIds };
+  if (!(playerId in nextScores)) {
+    nextScores[playerId] = 0;
+  }
+  if (completedBoxIds.length > 0) {
+    nextScores[playerId] += completedBoxIds.length;
+  }
+
+  orderedPlayers.forEach((id) => {
+    if (!(id in nextScores)) {
+      nextScores[id] = 0;
+    }
+  });
+
+  const isGameOver = Object.values(boardState.edges).every(
+    (currentEdge) => currentEdge.claimedBy
+  );
+  const outcome = isGameOver ? getGameOutcome(nextScores) : { winnerId: null, isTie: false };
+
+  const nextPlayerId =
+    completedBoxIds.length > 0
+      ? currentPlayerId
+      : getNextPlayerId(currentPlayerId, orderedPlayers);
+
+  return {
+    boardState,
+    completedBoxIds,
+    scores: nextScores,
+    currentPlayerId: nextPlayerId,
+    isGameOver,
+    winnerId: outcome.winnerId,
+  };
+}
+
+/**
+ * Determine the next player id in rotation.
+ * @param {string} currentPlayerId
+ * @param {string[]} playerOrder
+ * @returns {string}
+ */
+function getNextPlayerId(currentPlayerId, playerOrder) {
+  if (!Array.isArray(playerOrder) || playerOrder.length === 0) {
+    return currentPlayerId;
+  }
+  const currentIndex = playerOrder.indexOf(currentPlayerId);
+  if (currentIndex === -1) {
+    return playerOrder[0];
+  }
+  return playerOrder[(currentIndex + 1) % playerOrder.length];
+}
+
+/**
+ * Compute the winner/tie outcome from scores.
+ * @param {ScoreState} scores
+ * @returns {GameOutcome}
+ */
+function getGameOutcome(scores) {
+  const entries = Object.entries(scores);
+  if (entries.length === 0) {
+    return { winnerId: null, isTie: true };
+  }
+  let topScore = -Infinity;
+  let winnerId = null;
+  let isTie = false;
+
+  entries.forEach(([playerId, score]) => {
+    if (score > topScore) {
+      topScore = score;
+      winnerId = playerId;
+      isTie = false;
+    } else if (score === topScore) {
+      isTie = true;
+    }
+  });
+
+  return { winnerId: isTie ? null : winnerId, isTie };
 }
 
 function runBoardSizeChecks() {
